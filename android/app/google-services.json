@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "854724650565",
+    "firebase_url": "https://beaming-pillar-135723.firebaseio.com",
+    "project_id": "beaming-pillar-135723",
+    "storage_bucket": "beaming-pillar-135723.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:854724650565:android:aecd0940a5560c9b",
+        "android_client_info": {
+          "package_name": "com.ezdelivery"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "854724650565-tink4oosqt928ae1jbvd6u1f18cvcgq8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAJ29NxWczRXWyWRHJlSYhzdGGe4TfdvIw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
