@@ -1,43 +1,42 @@
 import React from 'react';
-import { View, Text } from 'react-native';
 import firebase from 'react-native-firebase';
+import { Container, Button, Text } from 'native-base';
 
 import Login from './Login';
 
 class MainScreen extends React.Component {
 
-   constructor() {
-      super();
-      this.unsubscriber = null;
+   constructor(props) {
+      super(props);
       this.state = {
          user: null,
       };
    }
 
-   /**
-    * Listen for any auth state changes and update component state
-    */
    componentDidMount() {
-      this.unsubscriber = firebase.auth().onAuthStateChanged((user) => {
-         this.setState({ user });
+      const user = firebase.auth().currentUser;
+      if (user) {
+         this.setState({user});
+      }
+   }
+
+   doLogout = () => {
+      return firebase.auth().signOut().then(() => {
+         this.props.navigation.navigate('Login');
+      }).catch(e => {
+         console.log('erro logout:', JSON.stringify(e.code));
       });
    }
 
-   componentWillUnmount() {
-      if (this.unsubscriber) {
-         this.unsubscriber();
-      }
-   }
-
    render() {
-      if (!this.state.user) {
-         return <Login />;
-      }
-
       return (
-         <View>
-            <Text>Welcome to my awesome app {this.state.user.email}!</Text>
-         </View>
+         <Container>
+            { this.state.user && <Text>Welcome to my awesome app {this.state.user.email}!</Text>}
+
+            <Button block onPress={this.doLogout}>
+               <Text>SignOut!</Text>
+            </Button>
+         </Container>
       );
    }
 

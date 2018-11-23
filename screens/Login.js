@@ -1,32 +1,41 @@
 import React from "react";
 import { StyleSheet, Image, Dimensions, View } from 'react-native';
 import { Container, Content, Button, Text, Header, Card, CardItem, Body } from 'native-base';
-import { GoogleSignin } from 'react-native-google-signin';
+import { GoogleSignin, statusCodes } from 'react-native-google-signin';
 import firebase from 'react-native-firebase';
 
 
 class Login extends React.Component {
 
-   _signIn = async () => {
+   state = {
+      doingLogin: false,
+   }
+
+   signIn = async () => {
+      this.setState({ doingLogin: true });
       try {
          await GoogleSignin.configure();
-
          const data = await GoogleSignin.signIn();
-
-         const credential = firebase.auth.GoogleAuthProvider.credential(data.idToken, data.accessToken)
-
-         // const currentUser = await firebase.auth().signInAndRetrieveDataWithCredential(credential);
+         this.setState({ doingLogin: false });
+         const credential = firebase.auth.GoogleAuthProvider.credential(data.idToken, data.accessToken);
 
          const currentUser = await firebase.auth().signInWithCredential(credential);
-
-         const perfil = currentUser.user.toJSON();
-         console.log(perfil.displayName);
-         console.log(perfil.email);
-         console.log(perfil.photoURL);
-
-         console.log(currentUser.user.toJSON());
-      } catch (e) {
-         console.error(e);
+         
+         if (currentUser) {
+            this.props.navigation.navigate('Main');
+         }
+      } catch (error) {
+         this.setState({ doingLogin: false });
+         if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+            alert('Canceled');
+         } else if (error.code === statusCodes.IN_PROGRESS) {
+            alert('In progress');
+         } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+            alert('Play Services is not Available');
+         } else {
+            console.log('Error: ', JSON.stringify(error));
+            alert('Error!');
+         }
       }
    }
 
@@ -52,7 +61,7 @@ class Login extends React.Component {
                      </CardItem>
                      <CardItem bordered>
                         <Body>
-                           <Button onPress={this._signIn} primary bordered block>
+                           <Button disabled={this.state.doingLogin} onPress={this.signIn} primary bordered block>
                               <Text style={styles.textCenter}>Google</Text>
                            </Button>
                         </Body>
