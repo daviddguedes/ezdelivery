@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, Image, Dimensions, View } from 'react-native';
-import { Container, Content, Button, Text, Header, Card, CardItem, Body } from 'native-base';
+import { Container, Content, Button, Text, Card, CardItem, Body } from 'native-base';
 import { GoogleSignin, statusCodes } from 'react-native-google-signin';
 import firebase from 'react-native-firebase';
 
